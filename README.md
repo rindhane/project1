@@ -1,7 +1,7 @@
 # Project Stock Analysis. 
 This repository helps to build your own local setup to do the analysis of the stocks listed on the BSE. 
 
-> Check out the analysis done on the index derivatives listed on the bombay stock exchange. [Link](https://www.google.com)  
+> Check out the analysis done on the index derivatives listed on the bombay stock exchange. [Link](https://github.com/rindhane/stock_options/blob/master/selection%20of%20derivative%20based%20on%20suitable%20call_premium.ipynb)  
 
 
 ***
@@ -10,21 +10,26 @@ This repository helps to build your own local setup to do the analysis of the st
 
 #### To generat the local database
 
-In the terminal, 
-'''
+In the terminal,
+
+````
 git clone https://github.com/rindhane/stock_options
 cd stock_options 
-'''
+``` 
+
 then run 
-'''python 
+
+```python 
 python file_downloader.py
-'''
+```
+
 > Let it run for some_time and it will create a sqlite database with the name "equity_db.db" in the same folder with all the historical records.
 
 
 #### To get a complete historical data of the stock in a dataframe. 
 
 Execute this command within your program or jupyter notebook
+
 df=data_to_pandas(scrip_no)
 
 example show as following for hdfc bank stocks >>
