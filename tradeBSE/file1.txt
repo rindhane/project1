@@ -1,0 +1,18 @@
+XHRGEThttps://api.bseindia.com/RealTimeBseIndiaAPI/api/GetSensexData/w
+
+wss://streamlive.bseindia.com/socket.io/?EIO=3&transport=websocket
+
+
+https://api.bseindia.com/BseIndiaAPI/api/getStocksGraph/w?m=500112&flag=Equity&ddlVal2=Index&ddlVal3=S&P BSE SENSEX&pgN=1
+
+
+https://api.bseindia.com/BseIndiaAPI/api/GetStkCurrMain/w?flag=Equity&ddlVal1=Index&ddlVal2=S%26P%20BSE%20SENSEX&m=0&pgN=1
+
+
+https://api.bseindia.com/BseIndiaAPI/api/SecurityPosition/w?quotetype=EQ&scripcode=500111
+
+https://api.bseindia.com/BseIndiaAPI/api/GetStkCurrMain/w?flag=Equity&ddlVal1=Index&ddlVal2=S%26P%20BSE%20SENSEX&m=0&pgN=1
+
+https://api.bseindia.com/BseIndiaAPI/api/GetStkWinData/w?m=500010&IndxCd=Equity&ddVal2=Index&ddVal3=S%26P%20BSE%20SENSEX&PgNo=1
+
+https://api.bseindia.com/BseIndiaAPI/api/getStocksGraph/w?m=500010&flag=Equity&ddlVal2=Index&ddlVal3=S%26P%20BSE%20SENSEX&pgN=1

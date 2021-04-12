@@ -1,3 +1,11 @@
+
+#files created temporarily 
 *.db
+
+#python & node files for runtime
 __pycache__/
 .ipynb_checkpoints/
+node_modules/
+
+#editor temp files
+.vscode/
