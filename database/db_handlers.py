@@ -125,6 +125,7 @@ class BSE_DB(self_setup_class):
         return date in dates
     def insert_date(self,date,status):
         date=str(date)
+        date="'"+date+"'"
         return self.insert_row(
                         self.DATE_TABLE,
                         self.DATE_HEADS,
