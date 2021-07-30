@@ -56,8 +56,21 @@ class BSEstockEntry(self_setup_class):
     def get_information_vals_string(self):
         list_=self.get_information_vals()
         return self.get_list_string(list_)
+    @classmethod
+    def get_execution_insertScript(cls,df):
+        script = ''
+        i=0
+        for row in df.iloc:
+            stock=cls(**row)
+            values=stock.get_indicator_vals_string()
+            statement=f" Insert INTO {stock['TABLE']} VALUES ({values}) ; "
+            script = script + statement
+        return script  
 
 class BSE_DB(self_setup_class):
+    #universal constants for BSE_DB
+    DATE_TABLE='DATE_RECORD'
+    DATE_HEADS=" DATE , STATUS "
     #db_path defined during initialization
     def get_db_path(self):
         return self.get('db_path','equity_db.db')
@@ -110,16 +123,14 @@ class BSE_DB(self_setup_class):
         self.commit()
         return True
     def create_date_table(self):
-        TABLE='DATE_RECORD'
-        self.DATE_TABLE=TABLE
-        heads= " DATE , STATUS "
-        self.DATE_HEADS=heads
-        return self.create_table(TABLE,heads) 
+        return self.create_table(self.__class__.DATE_TABLE,
+                                 self.__class__.DATE_HEADS,
+                                ) 
     def isDate(self,date):
         date=str(date)
         cursor=self.initiate_connection()
         result=cursor.execute(
-            f"select * from  {self.DATE_TABLE}" 
+            f"select * from  {self.__class__.DATE_TABLE}" 
             ).fetchall()
         dates=set(vals[0] for vals in result)
         return date in dates
@@ -127,13 +138,17 @@ class BSE_DB(self_setup_class):
         date=str(date)
         date="'"+date+"'"
         return self.insert_row(
-                        self.DATE_TABLE,
-                        self.DATE_HEADS,
+                        self.__class__.DATE_TABLE,
+                        self.__class__.DATE_HEADS,
                         f'{date} , {status}')
     def create_info_table(self):
         self.INFO_TABLE='INFO_TABLE'
         keys=BSEstockEntry().get_information_keys()
         heads=" , ".join(keys)
         self.create_table(self.INFO_TABLE , heads)
+        return True
+    def execute_script(self,script):
+        self.get_cursor().executescript(script)
+        self.commit()
         return True
 
