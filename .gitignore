@@ -10,3 +10,6 @@ pyenv/
 
 #editor temp files
 .vscode/
+
+#secrets
+secrets/
