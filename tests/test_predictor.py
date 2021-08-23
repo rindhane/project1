@@ -2,7 +2,7 @@
 import unittest
 import pandas as pd
 import os  
-from ..workers import Predictor
+from analysis_liveTrade.workers import Predictor
 
 class TestPredictor(unittest.TestCase):
     def setUp(self):

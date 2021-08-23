@@ -1,12 +1,14 @@
 
 #files created temporarily 
-*.db
+/equity_archive.db
+equityBSE.db
 
 #python & node files for runtime
 __pycache__/
 .ipynb_checkpoints/
 node_modules/
 pyenv/ 
+*.pyc
 
 #editor temp files
 .vscode/

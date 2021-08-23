@@ -1,5 +1,5 @@
 import sqlite3 as sqlite
-from .helper_file import self_setup_class
+from utilities.general.class_builders import self_setup_class
 from google.cloud.sql.connector import connector
 import os 
 

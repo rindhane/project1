@@ -1,17 +1,20 @@
-from utilities import (self_setup_class,
-                        Data, 
-                        Source)
+from utilities.general.class_builders import self_setup_class
+from utilities.data_analysis import ( 
+                                        Data, 
+                                        Source_Json)
+                                            
 import pandas
+import os 
 #---------constants--------------
-DATA1='test.json'
+DATA1=os.path.dirname(__file__)+'/test.json'
 
 #-----------------------
 
 sources= {
-    'test':Source(name='test',path=DATA1)
+    'test':Source_Json(name='test',path=DATA1)
 }
 
-
+#-------------------
 column_mapper= {
     
     0:'timestamp',
@@ -21,7 +24,6 @@ column_mapper= {
     4: 'close',
     5: 'volume',
     6: 'not-applicable'
-
 }
 
 def processor(col, schema):
@@ -40,7 +42,6 @@ process_dict= {
     'volume': [process_nothing], #already float / integers and no nan values
     'not-applicable': [process_nothing], #already float / integers and no nan values
 }
-
 
 def clean_preprocessing(df,process_dict=process_dict,**kwargs):
     df = df.rename(columns=column_mapper)

@@ -1,5 +1,3 @@
-import datetime as dt
-
 class self_setup_class : 
     '''helper class to setup class which can create attributes from 
     the passed key value pairs during initalization of instance'''
@@ -25,15 +23,3 @@ class self_setup_class :
         if self.__getitem__(key) is None :
             return default
         return self.__getitem__(key)
-
-def date_range(date_start, date_end):
-    #dates expected in isoformat
-    start =  dt.date.fromisoformat(date_start)
-    end = dt.date.fromisoformat(date_end)
-    span = (end-start).days
-    for i in range(0,span,(1 if span>0 else -1)):
-        date=start+dt.timedelta(days=i)
-        yield date
-
-
-

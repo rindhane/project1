@@ -7,14 +7,14 @@ from .db_handlers import (
                                 )
 from .downloader import (download_data,
                         exchange_default as EXCHANGE)
-from .helper_file import date_range
+from utilities.general.time_helpers import date_range_generator
 import os 
 import datetime as dt
 import concurrent.futures as lib
 from secrets.db_creds import Creds
 import logging
-format = "%(asctime)s: %(message)s"
-logging.basicConfig(format=format, level=logging.INFO,
+formatMessage = "%(asctime)s: %(message)s"
+logging.basicConfig(format=formatMessage, level=logging.INFO,
                         datefmt="%H:%M:%S")
 
 #equity_storage_path
@@ -65,7 +65,7 @@ def populate_engine_archive(db_class,db_cred,entryClass,
                 exchange,
                 workers=None,threads=None,):
         #dates expected in iso format
-        date_iterator=date_range(start_date,end_date)
+        date_iterator=date_range_generator(start_date,end_date)
         #initalization database
         db_object=db_class(**vars(db_cred))
         cursor=db_object.initiate_connection()
@@ -97,7 +97,6 @@ def single_thread_DB_IO (df,date,db_class,db_cred,
         cursor=db_object.initiate_connection()
         push_new_table(df,db_object,entryClass)
         push_new_entries(df,db_object,entryClass)
-        db_object.insert_date(date,status)
         db_object.close_connection()
         return True
 
@@ -151,7 +150,7 @@ def populate_engine_multiThread(db_class,db_cred, entryClass,
                                 threads=100,
                                 ):
         #dates expected in iso format
-        date_iterator=date_range(start_date,end_date)
+        date_iterator=date_range_generator(start_date,end_date)
         logging.info("State of program %s", 'start')
         for date in date_iterator:
                 populate_single_date(
@@ -164,6 +163,28 @@ def populate_engine_multiThread(db_class,db_cred, entryClass,
                 )
         logging.info("State of program %s", 'end')
         return True
+
+def transfer(conn1,conn2,cls, tables):
+        formatMessage = "%(asctime)s: %(message)s"
+        logging.basicConfig(format=formatMessage, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+        cursorCloud=conn1.get_cursor()
+        cursorFile=conn2.cursor()
+        filler=', '.join('?' for i in range(0,11))
+        template="INSERT INTO {table} VALUES ({filler})"
+        for table in tables:
+                cursorCloud.execute('select * from {table};'.format(table=table[0]))
+                result=cursorCloud.fetchall()
+                statement='CREATE TABLE {table} ({heads})'.\
+                               format(
+                        table=table[0],
+                        heads=' , '.join(cls.get_indicator_keys()),)
+                cursorFile.execute(statement)
+                tmp=template.format(table=table[0],filler=filler)
+                cursorFile.executemany(tmp,iter(result))
+                conn2.commit()
+                logging.info('table done %s', table)
+        print('transfer complete')
 
 if __name__=='__main__':
         try:
